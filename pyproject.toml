@@ -1,0 +1,45 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "deslop"
+version = "0.1.0"
+description = "CLI tool to detect and remove AI writing patterns (slop) from text"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+authors = [
+    { name = "rankgnar" }
+]
+keywords = ["ai", "writing", "cli", "text", "slop"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Text Processing",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "click>=8.0",
+]
+
+[project.scripts]
+deslop = "deslop.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/rankgnar/deslop"
+Issues = "https://github.com/rankgnar/deslop/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["deslop"]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+]
