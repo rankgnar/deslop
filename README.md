@@ -1,5 +1,7 @@
 # deslop
 
+![banner](assets/banner.jpg)
+
 **CLI tool to detect and remove AI writing patterns ("slop") from text.**
 
 Catches the telltale signs of AI-generated prose: overused buzzwords, false profundity structures, rhetorical self-questions, empty transitions, and more — based on the tropes catalogued at [tropes.fyi](https://tropes.fyi).
