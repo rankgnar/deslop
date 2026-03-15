@@ -35,6 +35,13 @@ deslop = "deslop.cli:main"
 Homepage = "https://github.com/rankgnar/deslop"
 Issues = "https://github.com/rankgnar/deslop/issues"
 
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "flake8>=6.0",
+]
+
 [tool.hatch.build.targets.wheel]
 packages = ["deslop"]
 
@@ -42,4 +49,5 @@ packages = ["deslop"]
 dev-dependencies = [
     "pytest>=7.0",
     "pytest-cov>=4.0",
+    "flake8>=6.0",
 ]
