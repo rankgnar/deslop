@@ -72,6 +72,38 @@ def test_detects_punchy_fragments():
     assert "punchy fragment" in pattern_names
 
 
+def test_detects_in_conclusion_marker():
+    """In-conclusion essay closers should be flagged."""
+    text = "In conclusion, this approach works."
+    matches = check_text(text)
+    pattern_names = {m.pattern_name for m in matches}
+    assert "in-conclusion marker" in pattern_names
+
+
+def test_detects_throat_clearing():
+    """Throat-clearing filler openers should be flagged."""
+    text = "With that said, let us move on."
+    matches = check_text(text)
+    pattern_names = {m.pattern_name for m in matches}
+    assert "throat-clearing opener" in pattern_names
+
+
+def test_detects_as_we_can_see():
+    """As-we-can-see condescending references should be flagged."""
+    text = "As we can see from the results above."
+    matches = check_text(text)
+    pattern_names = {m.pattern_name for m in matches}
+    assert "as-we-can-see" in pattern_names
+
+
+def test_detects_moving_forward():
+    """Moving-forward temporal filler should be flagged."""
+    text = "Moving forward, we will focus on growth."
+    matches = check_text(text)
+    pattern_names = {m.pattern_name for m in matches}
+    assert "moving-forward filler" in pattern_names
+
+
 def test_match_contains_line_number():
     """Matches should report correct line numbers."""
     text = "Line one is fine.\nThis line will delve into things."

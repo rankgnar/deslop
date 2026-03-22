@@ -10,6 +10,7 @@ Commands:
 
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 from typing import Optional
@@ -97,11 +98,13 @@ def cli() -> None:
     show_default=True,
     help="Only show patterns at or above this severity (1=mild, 2=moderate, 3=severe).",
 )
+@click.option("--json/--no-json", "use_json", default=False, help="Output results as JSON.")
 def check(
     file: Optional[str],
     use_stdin: bool,
     no_score: bool,
     min_severity: int,
+    use_json: bool,
 ) -> None:
     """Analyze a file (or stdin) and show detected slop patterns."""
     if use_stdin:
@@ -115,6 +118,21 @@ def check(
 
     score, matches = score_text(text)
     filtered = [m for m in matches if m.severity >= min_severity]
+
+    if use_json:
+        result = [
+            {
+                "line": m.line_number,
+                "text": m.line_text,
+                "pattern": m.pattern_name,
+                "description": m.pattern_description,
+                "severity": m.severity,
+                "matched": m.matched_text,
+            }
+            for m in filtered
+        ]
+        click.echo(json.dumps(result, indent=2))
+        sys.exit(0 if not matches else 1)
 
     if not filtered:
         click.echo(_color("✓ No slop patterns detected.", BOLD, GREEN))
@@ -140,7 +158,8 @@ def check(
 @cli.command()
 @click.argument("file", required=False, type=click.Path(exists=True, readable=True))
 @click.option("--stdin", "use_stdin", is_flag=True, help="Read text from stdin.")
-def score(file: Optional[str], use_stdin: bool) -> None:
+@click.option("--json/--no-json", "use_json", default=False, help="Output result as JSON.")
+def score(file: Optional[str], use_stdin: bool, use_json: bool) -> None:
     """Give a humanness score (0–100) for the text."""
     if use_stdin:
         text = sys.stdin.read()
@@ -150,6 +169,9 @@ def score(file: Optional[str], use_stdin: bool) -> None:
         raise click.UsageError("Provide a FILE argument or use --stdin.")
 
     s, matches = score_text(text)
+    if use_json:
+        click.echo(json.dumps({"score": s, "label": score_label(s), "issues": len(matches)}))
+        return
     _print_score(s, len(matches))
 
 

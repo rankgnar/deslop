@@ -189,6 +189,60 @@ PATTERNS: list[Pattern] = [
 
     # 11. Punchy fragments (very short lines used as "paragraphs")
     # This is handled separately in the scorer since it needs multi-line context
+
+    # 12. In-conclusion markers
+    Pattern(
+        name="in-conclusion marker",
+        description='AI-style essay closers that signal a formulaic wrap-up',
+        severity=2,
+        words=['in conclusion', 'to summarize', 'in summary', 'to wrap up', 'in closing'],
+        regexes=[
+            r'\bin\s+conclusion\b',
+            r'\bto\s+summarize\b',
+            r'\bin\s+summary\b',
+            r'\bto\s+wrap\s+up\b',
+            r'\bin\s+closing\b',
+        ],
+    ),
+
+    # 13. Throat-clearing openers
+    Pattern(
+        name="throat-clearing opener",
+        description='Filler openers that delay getting to the point',
+        severity=2,
+        regexes=[
+            r'\bwithout\s+further\s+ado\b',
+            r'\bwith\s+that\s+(?:said|being\s+said)\b',
+            r'\bthat\s+being\s+said\b',
+            r'\bhaving\s+said\s+that\b',
+            r'\bwith\s+that\s+out\s+of\s+the\s+way\b',
+        ],
+    ),
+
+    # 14. As-we-can-see
+    Pattern(
+        name="as-we-can-see",
+        description='Condescending references to what was just said or is obvious',
+        severity=1,
+        regexes=[
+            r'\bas\s+we\s+can\s+see\b',
+            r'\bas\s+(?:mentioned|noted|discussed)\s+(?:above|earlier|previously|before)\b',
+            r'\bas\s+(?:you\s+(?:can\s+see|may\s+know|probably\s+know))\b',
+        ],
+    ),
+
+    # 15. Moving-forward filler
+    Pattern(
+        name="moving-forward filler",
+        description='Vague temporal filler that pads without adding meaning',
+        severity=1,
+        regexes=[
+            r'\bmoving\s+forward\b',
+            r'\bgoing\s+forward\b',
+            r'\bin\s+this\s+day\s+and\s+age\b',
+            r'\bin\s+the\s+modern\s+(?:era|world|age|landscape)\b',
+        ],
+    ),
 ]
 
 
